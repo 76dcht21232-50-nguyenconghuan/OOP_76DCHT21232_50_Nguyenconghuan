@@ -1,0 +1,126 @@
+#include <iostream>
+#include <string>
+#include <iomanip>
+
+using namespace std;
+
+class SinhVien
+{
+private:
+    string hoTen;
+    int namSinh;
+    float diem[4];
+
+public:
+    void nhap()
+    {
+        cout << "Nhap ho ten: ";
+        getline(cin, hoTen);
+
+        cout << "Nhap nam sinh: ";
+        cin >> namSinh;
+
+        for(int i = 0; i < 4; i++)
+        {
+            cout << "Nhap diem mon " << i + 1 << ": ";
+            cin >> diem[i];
+        }
+
+        cin.ignore();
+    }
+
+    void xuat()
+    {
+        cout << "Ho ten: " << hoTen << endl;
+        cout << "Nam sinh: " << namSinh << endl;
+
+        cout << "Diem 4 mon: ";
+        for(int i = 0; i < 4; i++)
+        {
+            cout << diem[i] << " ";
+        }
+
+        cout << endl;
+
+        cout << "Diem trung binh: "
+             << fixed << setprecision(2)
+             << tinhDiemTB() << endl;
+    }
+
+    float tinhDiemTB()
+    {
+        float tong = 0;
+
+        for(int i = 0; i < 4; i++)
+        {
+            tong = tong + diem[i];
+        }
+
+        return tong / 4;
+    }
+
+    bool phaiThiTotNghiep()
+    {
+        if(tinhDiemTB() >= 7)
+        {
+            return false;
+        }
+
+        for(int i = 0; i < 4; i++)
+        {
+            if(diem[i] < 5)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+};
+
+int main()
+{
+    int n;
+
+    cout << "Nhap so luong sinh vien: ";
+    cin >> n;
+    cin.ignore();
+
+    SinhVien sv[100];
+
+    for(int i = 0; i < n; i++)
+    {
+        cout << "\n========== SINH VIEN " << i + 1 << " ==========" << endl;
+        sv[i].nhap();
+    }
+
+    cout << "\n\n========== DANH SACH SINH VIEN ==========" << endl;
+
+    for(int i = 0; i < n; i++)
+    {
+        cout << "\n--- Sinh vien " << i + 1 << " ---" << endl;
+        sv[i].xuat();
+    }
+
+    cout << "\n\n========== SINH VIEN PHAI THI TOT NGHIEP ==========" << endl;
+
+    bool coSinhVien = false;
+
+    for(int i = 0; i < n; i++)
+    {
+        if(sv[i].phaiThiTotNghiep())
+        {
+            cout << "\nSinh vien " << i + 1 << ":" << endl;
+            sv[i].xuat();
+
+            coSinhVien = true;
+        }
+    }
+
+    if(coSinhVien == false)
+    {
+        cout << "Khong co sinh vien nao phai thi tot nghiep." << endl;
+    }
+
+    return 0;
+}
