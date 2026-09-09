@@ -1,0 +1,195 @@
+#include <iostream>
+#include <stdlib.h>
+using namespace std;
+
+class PhanSo
+{
+private:
+    int tu;
+    int mau;
+
+public:
+    PhanSo()
+    {
+        tu = 0;
+        mau = 1;
+    }
+
+    PhanSo(int t, int m)
+    {
+        tu = t;
+        mau = m;
+    }
+
+    ~PhanSo()
+    {
+    }
+
+    void nhap()
+    {
+        cout << "Nhap tu so: ";
+        cin >> tu;
+
+        do
+        {
+            cout << "Nhap mau so: ";
+            cin >> mau;
+        }
+        while (mau == 0);
+    }
+
+    void xuat()
+    {
+        if (mau < 0)
+        {
+            tu = -tu;
+            mau = -mau;
+        }
+
+        cout << tu << "/" << mau;
+    }
+
+    int UCLN(int a, int b)
+    {
+        a = abs(a);
+        b = abs(b);
+
+        while (b != 0)
+        {
+            int r = a % b;
+            a = b;
+            b = r;
+        }
+
+        return a;
+    }
+
+    void rutGon()
+    {
+        int u = UCLN(tu, mau);
+
+        tu = tu / u;
+        mau = mau / u;
+
+        if (mau < 0)
+        {
+            tu = -tu;
+            mau = -mau;
+        }
+    }
+
+    PhanSo cong(PhanSo ps)
+    {
+        PhanSo kq;
+
+        kq.tu = tu * ps.mau + ps.tu * mau;
+        kq.mau = mau * ps.mau;
+
+        kq.rutGon();
+
+        return kq;
+    }
+
+    PhanSo tru(PhanSo ps)
+    {
+        PhanSo kq;
+
+        kq.tu = tu * ps.mau - ps.tu * mau;
+        kq.mau = mau * ps.mau;
+
+        kq.rutGon();
+
+        return kq;
+    }
+
+    PhanSo nhan(PhanSo ps)
+    {
+        PhanSo kq;
+
+        kq.tu = tu * ps.tu;
+        kq.mau = mau * ps.mau;
+
+        kq.rutGon();
+
+        return kq;
+    }
+
+    PhanSo chia(PhanSo ps)
+    {
+        PhanSo kq;
+
+        kq.tu = tu * ps.mau;
+        kq.mau = mau * ps.tu;
+
+        kq.rutGon();
+
+        return kq;
+    }
+
+    int layTu()
+    {
+        return tu;
+    }
+};
+
+int main()
+{
+    PhanSo ps1, ps2;
+    PhanSo kq;
+
+    cout << "Nhap phan so thu nhat:" << endl;
+    ps1.nhap();
+
+    cout << endl;
+
+    cout << "Nhap phan so thu hai:" << endl;
+    ps2.nhap();
+
+    ps1.rutGon();
+    ps2.rutGon();
+
+    cout << endl;
+
+    cout << "Phan so thu nhat: ";
+    ps1.xuat();
+
+    cout << endl;
+
+    cout << "Phan so thu hai: ";
+    ps2.xuat();
+
+    cout << endl << endl;
+
+    kq = ps1.cong(ps2);
+    cout << "Tong = ";
+    kq.xuat();
+
+    cout << endl;
+
+    kq = ps1.tru(ps2);
+    cout << "Hieu = ";
+    kq.xuat();
+
+    cout << endl;
+
+    kq = ps1.nhan(ps2);
+    cout << "Tich = ";
+    kq.xuat();
+
+    cout << endl;
+
+    if (ps2.layTu() == 0)
+    {
+        cout << "Khong the chia cho phan so co tu so bang 0!";
+    }
+    else
+    {
+        kq = ps1.chia(ps2);
+        cout << "Thuong = ";
+        kq.xuat();
+    }
+
+    cout << endl;
+
+    return 0;
+}
