@@ -1,0 +1,191 @@
+#include <iostream>
+#include <stdlib.h>
+using namespace std;
+
+class PhanSo
+{
+private:
+    int tu;
+    int mau;
+
+public:
+    // Ham tao khong doi
+    PhanSo()
+    {
+        tu = 0;
+        mau = 1;
+    }
+
+    // Ham tao co doi
+    PhanSo(int t, int m)
+    {
+        tu = t;
+        mau = m;
+    }
+
+    // Ham huy
+    ~PhanSo()
+    {
+    }
+
+    // Nap chong toan tu nhap
+    friend istream& operator >> (istream& is, PhanSo& ps)
+    {
+        cout << "Nhap tu so: ";
+        is >> ps.tu;
+
+        do
+        {
+            cout << "Nhap mau so: ";
+            is >> ps.mau;
+        }
+        while (ps.mau == 0);
+
+        return is;
+    }
+
+    // Nap chong toan tu xuat
+    friend ostream& operator << (ostream& os, PhanSo ps)
+    {
+        if (ps.mau < 0)
+        {
+            ps.tu = -ps.tu;
+            ps.mau = -ps.mau;
+        }
+
+        os << ps.tu << "/" << ps.mau;
+
+        return os;
+    }
+
+    // Ham tim UCLN
+    int UCLN(int a, int b)
+    {
+        a = abs(a);
+        b = abs(b);
+
+        while (b != 0)
+        {
+            int r = a % b;
+            a = b;
+            b = r;
+        }
+
+        return a;
+    }
+
+    // Ham rut gon
+    void rutGon()
+    {
+        int u = UCLN(tu, mau);
+
+        tu = tu / u;
+        mau = mau / u;
+
+        if (mau < 0)
+        {
+            tu = -tu;
+            mau = -mau;
+        }
+    }
+
+    // Nap chong toan tu +
+    PhanSo operator + (PhanSo ps)
+    {
+        PhanSo kq;
+
+        kq.tu = tu * ps.mau + ps.tu * mau;
+        kq.mau = mau * ps.mau;
+
+        kq.rutGon();
+
+        return kq;
+    }
+
+    // Nap chong toan tu -
+    PhanSo operator - (PhanSo ps)
+    {
+        PhanSo kq;
+
+        kq.tu = tu * ps.mau - ps.tu * mau;
+        kq.mau = mau * ps.mau;
+
+        kq.rutGon();
+
+        return kq;
+    }
+
+    // Nap chong toan tu *
+    PhanSo operator * (PhanSo ps)
+    {
+        PhanSo kq;
+
+        kq.tu = tu * ps.tu;
+        kq.mau = mau * ps.mau;
+
+        kq.rutGon();
+
+        return kq;
+    }
+
+    // Nap chong toan tu /
+    PhanSo operator / (PhanSo ps)
+    {
+        PhanSo kq;
+
+        kq.tu = tu * ps.mau;
+        kq.mau = mau * ps.tu;
+
+        kq.rutGon();
+
+        return kq;
+    }
+
+    // Lay tu so
+    int layTu()
+    {
+        return tu;
+    }
+};
+
+int main()
+{
+    PhanSo ps1, ps2;
+    PhanSo tong, hieu, tich, thuong;
+
+    cout << "Nhap phan so thu nhat:" << endl;
+    cin >> ps1;
+
+    cout << endl;
+
+    cout << "Nhap phan so thu hai:" << endl;
+    cin >> ps2;
+
+    ps1.rutGon();
+    ps2.rutGon();
+
+    cout << endl;
+    cout << "Phan so thu nhat: " << ps1 << endl;
+    cout << "Phan so thu hai: " << ps2 << endl;
+
+    tong = ps1 + ps2;
+    hieu = ps1 - ps2;
+    tich = ps1 * ps2;
+
+    cout << endl;
+    cout << "Tong = " << tong << endl;
+    cout << "Hieu = " << hieu << endl;
+    cout << "Tich = " << tich << endl;
+
+    if (ps2.layTu() == 0)
+    {
+        cout << "Khong the chia cho phan so co tu so bang 0!" << endl;
+    }
+    else
+    {
+        thuong = ps1 / ps2;
+        cout << "Thuong = " << thuong << endl;
+    }
+
+    return 0;
+}
