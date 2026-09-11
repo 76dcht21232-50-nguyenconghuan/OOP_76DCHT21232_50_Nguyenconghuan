@@ -1,1 +1,91 @@
+#include<iostream>
+#include<cmath>
 
+using namespace std;
+
+class SoPhuc{
+	private:
+		double thuc;
+		double ao;
+	public:
+		SoPhuc(){
+			thuc = 0;
+			ao = 0;
+		}
+		
+		SoPhuc(double thuc, double ao){
+			this->thuc=thuc;
+			this->ao=ao;
+		}
+		
+		~SoPhuc(){
+		}
+		
+		friend istream& operator>>(istream& is, SoPhuc& sp){
+			cout<<"Nhap phan thuc: ";
+			is>>sp.thuc;
+			cout<<"Nhap phan ao: ";
+			is>>sp.ao;
+			return is;
+		}
+		
+		friend ostream& operator<<(ostream& os, const SoPhuc& sp){
+			if(sp.ao>=0)
+				os<<sp.thuc<<"+"<<sp.ao<<"i";
+			else
+				os<<sp.thuc<<"-"<<abs(sp.ao)<<"i";
+			return os;
+		}
+		
+		SoPhuc operator+(const SoPhuc& sp){
+			return SoPhuc(this->thuc+sp.thuc, this->ao+sp.ao);
+		}
+		
+		SoPhuc operator-(const SoPhuc& sp){
+			return SoPhuc(this->thuc-sp.thuc, this->ao-sp.ao);
+		}
+		
+		SoPhuc operator*(const SoPhuc& sp){
+			double thucMoi=(this->thuc*sp.thuc)-(this->ao*sp.ao);
+			double aoMoi=(this->thuc*sp.ao)+(this->ao*sp.thuc);
+			return SoPhuc(thucMoi,aoMoi);
+		}
+		
+		SoPhuc operator/(const SoPhuc& sp){
+			double mau=sp.thuc*sp.thuc+sp.ao*sp.ao;
+			
+			if(mau==0){
+				cout<<"Khong the chia cho so phuc 0!"<<endl;
+				return SoPhuc();
+			}
+			
+			double thucMoi=(this->thuc*sp.thuc+this->ao*sp.ao)/mau;
+			double aoMoi=(this->ao*sp.thuc-this->thuc*sp.ao)/mau;
+			
+			return SoPhuc(thucMoi,aoMoi);
+		}
+};
+
+int main(){
+	SoPhuc sp1,sp2;
+	
+	cout<<"Nhap so phuc thu nhat:"<<endl;
+	cin>>sp1;
+	
+	cout<<endl;
+	
+	cout<<"Nhap so phuc thu hai:"<<endl;
+	cin>>sp2;
+	
+	cout<<endl;
+	cout<<"So phuc thu nhat: "<<sp1<<endl;
+	cout<<"So phuc thu hai: "<<sp2<<endl;
+	
+	cout<<endl;
+	cout<<"Tong hai so phuc: "<<sp1+sp2<<endl;
+	cout<<"Hieu hai so phuc: "<<sp1-sp2<<endl;
+	cout<<"Tich hai so phuc: "<<sp1*sp2<<endl;
+	cout<<"Thuong hai so phuc: "<<sp1/sp2<<endl;
+	
+	return 0;
+}
