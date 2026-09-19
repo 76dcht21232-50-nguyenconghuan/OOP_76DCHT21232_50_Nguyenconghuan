@@ -1,0 +1,126 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class nguoi
+{
+    protected:
+        string hoten;
+        int ns;
+
+    public:
+        void nhap();
+        void xuat();
+};
+
+class sinhvien: public nguoi
+{
+    private:
+        string msv;
+        float dtb;
+
+    public:
+        void nhap();
+        void xuat();
+
+        string getmsv();
+        string gethoten();
+};
+
+void nguoi::nhap()
+{
+    cout << "Nhap hoten: ";
+    getline(cin, hoten);
+
+    cout << "Nhap ns: ";
+    cin >> ns;
+    cin.ignore();
+}
+
+void nguoi::xuat()
+{
+    cout << "Hoten: " << hoten << endl;
+    cout << "Ns: " << ns << endl;
+}
+
+void sinhvien::nhap()
+{
+    nguoi::nhap();
+
+    cout << "Nhap msv: ";
+    getline(cin, msv);
+
+    cout << "Nhap dtb: ";
+    cin >> dtb;
+    cin.ignore();
+}
+
+void sinhvien::xuat()
+{
+    nguoi::xuat();
+
+    cout << "Msv: " << msv << endl;
+    cout << "Dtb: " << dtb << endl;
+}
+
+string sinhvien::getmsv()
+{
+    return msv;
+}
+
+string sinhvien::gethoten()
+{
+    return hoten;
+}
+
+int main()
+{
+    int n;
+
+    cout << "Nhap so luong sinh vien: ";
+    cin >> n;
+    cin.ignore();
+
+    sinhvien *ds = new sinhvien[n];
+
+    for (int i = 0; i < n; i++)
+    {
+        cout << "\nNhap sinh vien thu " << i + 1 << ":\n";
+        ds[i].nhap();
+    }
+
+    cout << "\n===== DANH SACH SINH VIEN =====\n";
+
+    for (int i = 0; i < n; i++)
+    {
+        cout << "\nSinh vien thu " << i + 1 << ":\n";
+        ds[i].xuat();
+    }
+
+    string tukhoa;
+    bool timthay = false;
+
+    cout << "\nNhap ma sinh vien hoac ho ten can tim: ";
+    getline(cin, tukhoa);
+
+    for (int i = 0; i < n; i++)
+    {
+        if (ds[i].getmsv() == tukhoa ||
+            ds[i].gethoten() == tukhoa)
+        {
+            cout << "\n===== SINH VIEN TIM THAY =====\n";
+            ds[i].xuat();
+
+            timthay = true;
+        }
+    }
+
+    if (timthay == false)
+    {
+        cout << "\nKhong tim thay sinh vien!";
+    }
+
+    delete[] ds;
+
+    return 0;
+}
