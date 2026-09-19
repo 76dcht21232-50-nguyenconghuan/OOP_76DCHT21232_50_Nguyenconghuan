@@ -1,0 +1,143 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class monhoc
+{
+    protected:
+        string tenmon;
+        float cc;
+        float kt;
+        float dt;
+
+    public:
+        void nhap();
+        void xuat();
+        float tinhdiem();
+};
+
+class sinhvien: public monhoc
+{
+    private:
+        string hoten;
+        string lop;
+        string msv;
+
+    public:
+        void nhap();
+        void xuat();
+        float tinhdiem();
+
+        float getcc();
+        float getkt();
+};
+
+void monhoc::nhap()
+{
+    cout << "Nhap ten mon: ";
+    getline(cin, tenmon);
+
+    cout << "Nhap diem chuyen can: ";
+    cin >> cc;
+
+    cout << "Nhap diem kiem tra: ";
+    cin >> kt;
+
+    cout << "Nhap diem thi: ";
+    cin >> dt;
+    cin.ignore();
+}
+
+void monhoc::xuat()
+{
+    cout << "Ten mon: " << tenmon << endl;
+    cout << "Diem chuyen can: " << cc << endl;
+    cout << "Diem kiem tra: " << kt << endl;
+    cout << "Diem thi: " << dt << endl;
+}
+
+float monhoc::tinhdiem()
+{
+    return cc * 0.1 + kt * 0.2 + dt * 0.7;
+}
+
+void sinhvien::nhap()
+{
+    cout << "Nhap ho ten: ";
+    getline(cin, hoten);
+
+    cout << "Nhap lop: ";
+    getline(cin, lop);
+
+    cout << "Nhap ma sinh vien: ";
+    getline(cin, msv);
+
+    monhoc::nhap();
+}
+
+void sinhvien::xuat()
+{
+    cout << "Ho ten: " << hoten << endl;
+    cout << "Lop: " << lop << endl;
+    cout << "Ma sinh vien: " << msv << endl;
+
+    monhoc::xuat();
+
+    cout << "Diem hoc phan: " << tinhdiem() << endl;
+}
+
+float sinhvien::tinhdiem()
+{
+    return monhoc::tinhdiem();
+}
+
+float sinhvien::getcc()
+{
+    return cc;
+}
+
+float sinhvien::getkt()
+{
+    return kt;
+}
+
+int main()
+{
+    int n;
+
+    cout << "Nhap so luong sinh vien: ";
+    cin >> n;
+    cin.ignore();
+
+    sinhvien *ds = new sinhvien[n];
+
+    for (int i = 0; i < n; i++)
+    {
+        cout << "\nNhap sinh vien thu " << i + 1 << ":\n";
+        ds[i].nhap();
+    }
+
+    cout << "\n===== DANH SACH SINH VIEN BI CAM THI =====\n";
+
+    bool timthay = false;
+
+    for (int i = 0; i < n; i++)
+    {
+        if (ds[i].getcc() < 5 || ds[i].getkt() == 0)
+        {
+            cout << "\nSinh vien thu " << i + 1 << ":\n";
+            ds[i].xuat();
+
+            timthay = true;
+        }
+    }
+
+    if (timthay == false)
+    {
+        cout << "Khong co sinh vien bi cam thi!";
+    }
+
+    delete[] ds;
+
+    return 0;
+}
