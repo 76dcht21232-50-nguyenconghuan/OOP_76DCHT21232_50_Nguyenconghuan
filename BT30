@@ -1,0 +1,128 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+//Cau 1
+class SP1
+{
+protected:
+    float thuc;
+    float ao;
+
+public:
+    SP1()
+    {
+        thuc = 0;
+        ao = 0;
+    }
+
+    SP1(float t, float a)
+    {
+        thuc = t;
+        ao = a;
+    }
+
+    void nhap()
+    {
+        cout << "Nhap phan thuc: ";
+        cin >> thuc;
+        cout << "Nhap phan ao: ";
+        cin >> ao;
+    }
+
+    void xuat()
+    {
+        cout << thuc;
+        if (ao >= 0)
+            cout << " + " << ao << "i";
+        else
+            cout << " - " << -ao << "i";
+    }
+
+    float module()
+    {
+        return sqrt(thuc * thuc + ao * ao);
+    }
+};
+//cau 2
+class SP2 : public SP1
+{
+public:
+    SP2() : SP1()
+    {
+    }
+
+    SP2(float t, float a) : SP1(t, a)
+    {
+    }
+
+    SP2& operator=(const SP2& x)
+    {
+        thuc = x.thuc;
+        ao = x.ao;
+        return *this;
+    }
+
+    bool operator>(const SP2& x)
+    {
+        return module() > x.module();
+    }
+};
+
+int main()
+{
+//Cau 3
+    SP2 a[10];
+    int n;
+
+    cout << "Nhap so luong so phuc n = ";
+    cin >> n;
+
+    while (n < 1 || n > 10)
+    {
+        cout << "Nhap lai n (1 <= n <= 10): ";
+        cin >> n;
+    }
+
+    cout << "\n===== NHAP DANH SACH SO PHUC =====\n";
+
+    for (int i = 0; i < n; i++)
+    {
+        cout << "\nSo phuc thu " << i + 1 << ":\n";
+        a[i].nhap();
+    }
+
+    cout << "\n===== DANH SACH VUA NHAP =====\n";
+
+    for (int i = 0; i < n; i++)
+    {
+        cout << "So phuc thu " << i + 1 << ": ";
+        a[i].xuat();
+        cout << "   Module = " << a[i].module() << endl;
+    }
+
+    SP2 tam;
+
+    for (int i = 0; i < n - 1; i++)
+    {
+        for (int j = i + 1; j < n; j++)
+        {
+            if (a[j] > a[i])
+            {
+                tam = a[i];
+                a[i] = a[j];
+                a[j] = tam;
+            }
+        }
+    }
+
+    cout << "\n===== DANH SACH SAU KHI SAP XEP GIAM DAN MODULE =====\n";
+
+    for (int i = 0; i < n; i++)
+    {
+        cout << "So phuc thu " << i + 1 << ": ";
+        a[i].xuat();
+        cout << "   Module = " << a[i].module() << endl;
+    }
+
+    return 0;
+}
